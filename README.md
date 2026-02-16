@@ -1,0 +1,2 @@
+# SGWRS-Spherical-Grid-based-Weighted-Random-Subsampling
+Real-time 3D object detection in LiDAR point clouds with an efficient training paradigm and Spherical Grid-based Weighted Random Subsampling (SGWRS). Specializes detectors for sparse inputs and uses dynamic subsampling as data augmentation, achieving state-of-the-art speed-accuracy trade-offs on the KITTI benchmark with a PointPillars backbone.
