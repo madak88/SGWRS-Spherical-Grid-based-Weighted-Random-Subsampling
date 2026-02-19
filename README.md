@@ -168,6 +168,10 @@ python evaluate.py --data_root /path/to/kitti --ckpt /path/to/checkpoint.pth --d
 
 </details>
 
+
+The trained model checkpoints are available here: [https://drive.google.com/drive/folders/1upACqyq26IpGa_9ccBzdfruqI7USgyml](https://drive.google.com/drive/folders/1upACqyq26IpGa_9ccBzdfruqI7USgyml)
+> Download the desired `.pth` file and pass its path to the `--ckpt` argument.
+
 ---
 
 ## Results (KITTI)
