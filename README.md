@@ -63,7 +63,7 @@ python setup.py build_ext --inplace
 Ensure the repo directory is writable through the mounted volume:
 
 ```bash
-sudo chmod -R 775 cnpp
+sudo chmod -R 775 sgwrs
 ```
 
 ### 3) KITTI preprocessing (inside the container)
@@ -156,7 +156,7 @@ python evaluate.py --data_root /path/to/kitti --ckpt /path/to/checkpoint.pth --d
 <summary><strong>Evaluation arguments</strong></summary>
 
 * `--data_root` (`str`, default: `kitti_data`) — KITTI root path.
-* `--ckpt` (`str`, default: `pretrained/epoch_160.pth`) — checkpoint path.
+* `--ckpt` (`str`, default: `pretrained_legacy/epoch_160.pth`) — checkpoint path.
 * `--saved_path` (`str`, default: `_results_tmp`) — output directory for predictions.
 * `--batch_size` (`int`, default: `8`) — batch size.
 * `--num_workers` (`int`, default: `4`) — DataLoader workers.
