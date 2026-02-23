@@ -202,7 +202,7 @@ Raw prediction outputs (3D boxes for all evaluated frames):
 | State-of-the-art           | CAS-Net                        |      64.46 |      61.79 |      56.74 |      47.97 |
 | Proposed training paradigm | RS + Specialized (ours)        |      64.46 |      60.83 |      55.12 |      44.56 |
 | Proposed training paradigm | FPS + Specialized (ours)       |      64.46 |      64.70 |      64.32 |      59.97 |
-| Proposed training paradigm | **SGWRS + Specialized (ours)** |      64.46 |      64.37 |      62.20 |      51.97 |
+| Proposed training paradigm | **SGWRS + Specialized (ours)** |      64.46 |      64.37 |      62.21 |      51.97 |
 
 <details>
 <summary>Chart (accuracy)</summary>
