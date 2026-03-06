@@ -45,6 +45,8 @@ RUN groupadd -g 999 appuser && \
 
 # Basic dependencies for everything
 USER root
+ENV FORCE_CUDA=1
+ENV TORCH_CUDA_ARCH_LIST="7.0+PTX"
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive\
     apt-get install -y\
