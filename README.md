@@ -194,15 +194,16 @@ Raw prediction outputs (3D boxes for all evaluated frames):
 
 ### Detection accuracy (bbox_3d, moderate mAP %)
 
-| Category                   | Method                         | D=1 (8192) | D=2 (4096) | D=4 (2048) | D=8 (1024) |
-| -------------------------- | ------------------------------ | ---------: | ---------: | ---------: | ---------: |
-| Conventional subsampling   | RS                             |      64.46 |      53.12 |      37.45 |      22.22 |
-| Conventional subsampling   | FPS                            |      64.46 |      62.24 |      49.85 |      20.94 |
-| Conventional subsampling   | **SGWRS (ours)**               |      64.46 |      62.08 |      51.53 |      30.14 |
-| State-of-the-art           | CAS-Net                        |      64.46 |      61.79 |      56.74 |      47.97 |
-| Proposed training paradigm | RS + Specialized (ours)        |      64.46 |      60.83 |      55.12 |      44.56 |
-| Proposed training paradigm | FPS + Specialized (ours)       |      64.46 |      64.70 |      64.32 |      59.97 |
-| Proposed training paradigm | **SGWRS + Specialized (ours)** |      64.46 |      64.37 |      62.21 |      51.97 |
+| Category                      | Method                         | D=1 (8192) | D=2 (4096) | D=4 (2048) | D=8 (1024) |
+| ----------------------------- | ------------------------------ | ---------: | ---------: | ---------: | ---------: |
+| Conventional subsampling      | RS                             |      64.46 |      53.12 |      37.45 |      22.22 |
+| Conventional subsampling      | FPS                            |      64.46 |      62.24 |      49.85 |      20.94 |
+| LiDAR-specialized Subsampling | RMS                            |      64.46 |          - |          - |      29.08 |
+| LiDAR-specialized Subsampling | **SGWRS (ours)**               |      64.46 |      62.08 |      51.53 |      30.14 |
+| State-of-the-art              | CAS-Net                        |      64.46 |      61.79 |      56.74 |      47.97 |
+| Proposed training paradigm    | RS + Specialized (ours)        |      64.46 |      60.83 |      55.12 |      44.56 |
+| Proposed training paradigm    | FPS + Specialized (ours)       |      64.46 |      64.70 |      64.32 |      59.97 |
+| Proposed training paradigm    | **SGWRS + Specialized (ours)** |      64.46 |      64.37 |      62.21 |      51.97 |
 
 <details>
 <summary>Chart (accuracy)</summary>
@@ -216,15 +217,16 @@ Full KITTI evaluation dumps (all metrics / difficulties):
 
 ### Subsampling overhead (seconds per frame)
 
-| Category                   | Method                         | D=1 (8192) | D=2 (4096) | D=4 (2048) | D=8 (1024) |
-| -------------------------- | ------------------------------ | ---------: | ---------: | ---------: | ---------: |
-| Conventional subsampling   | RS                             |          - |      0.001 |      0.001 |      0.001 |
-| Conventional subsampling   | FPS                            |          - |      0.144 |      0.075 |      0.041 |
-| Conventional subsampling   | **SGWRS (ours)**               |          - |      0.006 |      0.005 |      0.004 |
-| State-of-the-art           | CAS-Net                        |          - |      0.072 |      0.038 |      0.029 |
-| Proposed training paradigm | RS + Specialized (ours)        |          - |      0.001 |      0.001 |      0.001 |
-| Proposed training paradigm | FPS + Specialized (ours)       |          - |      0.144 |      0.075 |      0.041 |
-| Proposed training paradigm | **SGWRS + Specialized (ours)** |          - |      0.006 |      0.005 |      0.004 |
+| Category                      | Method                         | D=1 (8192) | D=2 (4096) | D=4 (2048) | D=8 (1024) |
+| ----------------------------- | ------------------------------ | ---------: | ---------: | ---------: | ---------: |
+| Conventional subsampling      | RS                             |          - |      0.001 |      0.001 |      0.001 |
+| Conventional subsampling      | FPS                            |          - |      0.144 |      0.075 |      0.041 |
+| LiDAR-specialized Subsampling | RMS                            |          - |          - |          - |      0.007 |
+| LiDAR-specialized Subsampling | **SGWRS (ours)**               |          - |      0.006 |      0.005 |      0.004 |
+| State-of-the-art              | CAS-Net                        |          - |      0.072 |      0.038 |      0.029 |
+| Proposed training paradigm    | RS + Specialized (ours)        |          - |      0.001 |      0.001 |      0.001 |
+| Proposed training paradigm    | FPS + Specialized (ours)       |          - |      0.144 |      0.075 |      0.041 |
+| Proposed training paradigm    | **SGWRS + Specialized (ours)** |          - |      0.006 |      0.005 |      0.004 |
 
 <details>
 <summary>Chart (runtime)</summary>
