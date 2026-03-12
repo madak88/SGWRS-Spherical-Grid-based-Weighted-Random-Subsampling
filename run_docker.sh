@@ -34,7 +34,7 @@ else
         --env NVIDIA_VISIBLE_DEVICES=all \
         --env NVIDIA_DRIVER_CAPABILITIES=all \
         --volume $src_folder:/home/appuser/sgwrs \
-        --volume /home/madak32/Desktop/SGWRS_Spherical-Grid-based-Weighted-Random-Subsampling/sgwrs_ds/kitti_data:/home/appuser/sgwrs/kitti_data \
+        --volume /path/to/kitti_data:/home/appuser/sgwrs/kitti_data \
         --interactive \
         --tty \
         --detach \
