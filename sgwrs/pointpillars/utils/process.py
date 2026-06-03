@@ -969,7 +969,7 @@ def hybrid_spherical_downsample(points, max_num_points, *,
         downsampled_points (torch.Tensor): (M, C)
         downsampled_indices (torch.LongTensor): (M,)
     """
-
+    
     azimuth_resolution = 0.33 * math.log2(ds_ratio)
     elevation_resolution = 0.33 * math.log2(ds_ratio)
     num_range_bins = 600 / math.log2(ds_ratio)
@@ -978,6 +978,12 @@ def hybrid_spherical_downsample(points, max_num_points, *,
     #print(elevation_resolution)
     #print(num_range_bins)
     #exit()
+
+    if points.ndim != 2:
+        raise ValueError("Input 'points' must be a 2D tensor with shape (N, C).")
+
+    if not points.is_floating_point():
+        raise TypeError("Input 'points' must be a floating point tensor.")
 
     device = points.device
     dtype = points.dtype
@@ -995,7 +1001,7 @@ def hybrid_spherical_downsample(points, max_num_points, *,
     if origin is None:
         origin = torch.tensor([0.0, 0.0, 0.0], device=device, dtype=dtype)
     else:
-        origin = origin.to(device=device, dtype=dtype)
+        origin = torch.as_tensor(origin, device=device, dtype=dtype)
 
     xyz = points[:, :3]
     points_xyz = xyz - origin
@@ -1003,20 +1009,24 @@ def hybrid_spherical_downsample(points, max_num_points, *,
     azimuth_deg = torch.rad2deg(azimuth_rad)
     elevation_deg = torch.rad2deg(elevation_rad)
 
-    min_azimuth = torch.floor(torch.min(azimuth_deg)) if min_azimuth is None else min_azimuth
-    max_azimuth = torch.ceil(torch.max(azimuth_deg)) if max_azimuth is None else max_azimuth
-    min_elevation = torch.floor(torch.min(elevation_deg)) if min_elevation is None else min_elevation
-    max_elevation = torch.ceil(torch.max(elevation_deg)) if max_elevation is None else max_elevation
+    min_azimuth = torch.floor(torch.min(azimuth_deg)) if min_azimuth is None else torch.as_tensor(min_azimuth, device=device, dtype=dtype)
+    max_azimuth = torch.ceil(torch.max(azimuth_deg)) if max_azimuth is None else torch.as_tensor(max_azimuth, device=device, dtype=dtype)
+    min_elevation = torch.floor(torch.min(elevation_deg)) if min_elevation is None else torch.as_tensor(min_elevation, device=device, dtype=dtype)
+    max_elevation = torch.ceil(torch.max(elevation_deg)) if max_elevation is None else torch.as_tensor(max_elevation, device=device, dtype=dtype)
 
-    if min_azimuth >= max_azimuth:
+    if bool((min_azimuth >= max_azimuth).item()):
         max_azimuth = min_azimuth + azimuth_resolution
-    if min_elevation >= max_elevation:
+    if bool((min_elevation >= max_elevation).item()):
         max_elevation = min_elevation + elevation_resolution
 
-    num_az_bins = max(1, int(torch.ceil((max_azimuth - min_azimuth) / azimuth_resolution)))
-    num_el_bins = max(1, int(torch.ceil((max_elevation - min_elevation) / elevation_resolution)))
+    num_az_bins = max(1, int(torch.ceil((max_azimuth - min_azimuth) / azimuth_resolution).item()))
+    num_el_bins = max(1, int(torch.ceil((max_elevation - min_elevation) / elevation_resolution).item()))
     max_range_val = torch.max(ranges)
-    grid_size_range = max_range_val / num_range_bins if max_range_val > 0 else torch.finfo(dtype).eps
+
+    if bool((max_range_val > 0).item()):
+        grid_size_range = max_range_val / num_range_bins
+    else:
+        grid_size_range = torch.finfo(dtype).eps
 
     azimuth_norm = torch.deg2rad(azimuth_deg - min_azimuth)
     elevation_norm = torch.deg2rad(elevation_deg - min_elevation)
@@ -1042,9 +1052,30 @@ def hybrid_spherical_downsample(points, max_num_points, *,
         return torch.zeros((0, num_channels), device=device, dtype=dtype), torch.empty(0, dtype=torch.long, device=device)
 
     selected_indices = weighted_random_sample_no_replacement(weights, num_cells_to_select)
-    selected_cells = unique_cells[selected_indices]
+    
+    N = points.shape[0]
+    U = unique_cells.shape[0]
 
-    # GPU-s maszkolás és első előfordulás megtalálása
-    selection_mask = (linear_cell_idx[:, None] == selected_cells[None, :])  # [N, K]
-    first_indices = selection_mask.float().argmax(dim=0)  # [K]
+    point_indices = torch.arange(
+        N,
+        device=device,
+        dtype=torch.long
+    )
+
+    first_index_per_unique_cell = torch.full(
+        (U,),
+        N,
+        dtype=torch.long,
+        device=device
+    )
+
+    first_index_per_unique_cell.scatter_reduce_(
+        0,
+        inverse_idx,
+        point_indices,
+        reduce="amin",
+        include_self=True
+    )
+
+    first_indices = first_index_per_unique_cell[selected_indices]
     return points[first_indices], first_indices
