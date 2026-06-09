@@ -1039,7 +1039,6 @@ def hybrid_spherical_downsample(points, max_num_points, *,
 
     linear_cell_idx = az_idx * (num_el_bins * num_range_bins) + el_idx * num_range_bins + r_idx
 
-    # GPU-optimalizált egyedi cellák és hozzárendelés
     unique_cells, inverse_idx, counts = torch.unique(linear_cell_idx, return_inverse=True, return_counts=True)
 
     eps = torch.finfo(dtype).eps
