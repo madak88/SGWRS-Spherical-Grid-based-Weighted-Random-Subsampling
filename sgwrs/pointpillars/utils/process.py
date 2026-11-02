@@ -945,7 +945,7 @@ def weighted_random_sample_no_replacement(weights, num_samples):
     if torch.sum(weights) == 0:
         return torch.randperm(num_elements, device=weights.device)[:num_samples]
 
-    log_weights = torch.log(weights + 1e-12)
+    log_weights = torch.log(weights)
     gumbel_noise = -torch.log(-torch.log(torch.rand(num_elements, device=weights.device)))
     scores = log_weights + gumbel_noise
     _, indices = torch.topk(scores, num_samples, largest=True)
@@ -1041,8 +1041,7 @@ def hybrid_spherical_downsample(points, max_num_points, *,
 
     unique_cells, inverse_idx, counts = torch.unique(linear_cell_idx, return_inverse=True, return_counts=True)
 
-    eps = torch.finfo(dtype).eps
-    weights = 1.0 / (counts.float() ** weighting_exponent + eps)
+    weights = 1.0 / (counts.float() ** weighting_exponent)
 
     num_available = unique_cells.shape[0]
     num_cells_to_select = min(max_num_points, num_available)
