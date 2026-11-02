@@ -4,7 +4,7 @@ Dense LiDAR point clouds impose a substantial computational and memory burden, w
 
 This repository implements a two-part approach:
 1. **Sparse-specialized training paradigm**: the detector is explicitly trained for sparse inputs using **dynamic subsampling** as data augmentation.
-2. **SGWRS (Spherical Grid-based Weighted Random Subsampling)**: a data-aware sampler that leverages a spherical grid and the **Gumbel–Max trick** to obtain Random-Sampling-level runtime while preserving long-range geometry via inverse-density weighting.
+2. **SGWRS (Spherical Grid-based Weighted Random Subsampling)**: a data-aware sampler that leverages a spherical grid and the **Gumbel–Top-K trick** to obtain Random-Sampling-level runtime while preserving long-range geometry via inverse-density weighting.
 
 Experiments on **KITTI** with a **PointPillars** backbone demonstrate a strong speed–accuracy trade-off compared to classical and learning-based sampling baselines.
 
@@ -196,15 +196,15 @@ Raw prediction outputs (3D boxes for all evaluated frames):
 
 | Category                      | Method                         | D=1 (8192) | D=2 (4096) | D=4 (2048) | D=8 (1024) |
 | ----------------------------- | ------------------------------ | ---------: | ---------: | ---------: | ---------: |
-| Conventional subsampling      | RS                             |      64.46 |      53.12 |      37.45 |      22.22 |
-| Conventional subsampling      | FPS                            |      64.46 |      62.24 |      49.85 |      20.94 |
+| Conventional subsampling      | RS                             |      64.46 |      53.34 |      37.24 |      22.93 |
+| Conventional subsampling      | FPS                            |      64.46 |      62.45 |      49.63 |      20.54 |
 | LiDAR-specialized Subsampling | RMS                            |      64.46 |          - |          - |      29.08 |
-| LiDAR-specialized Subsampling | **SGWRS (ours)**               |      64.46 |      62.08 |      51.53 |      30.14 |
-| State-of-the-art              | CAS-Net                        |      64.46 |      61.79 |      56.74 |      47.97 |
-| Proposed training paradigm    | RS + Specialized (ours)        |      64.46 |      60.83 |      55.12 |      44.56 |
-| Proposed training paradigm    | FPS + Specialized (ours)       |      64.46 |      64.70 |      64.32 |      59.97 |
-| Proposed training paradigm    | **SGWRS + Specialized (ours)** |      64.46 |      64.37 |      62.21 |      51.97 |
-
+| LiDAR-specialized Subsampling | **SGWRS (ours)**               |      64.46 |      61.93 |      51.25 |      29.80 |
+| Joint Training                | CAS-Net                        |      64.46 |      61.79 |      56.74 |      47.97 |
+| Proposed training paradigm    | RS + Specialized (ours)        |      64.46 |      61.71 |      54.43 |      45.29 |
+| Proposed training paradigm    | FPS + Specialized (ours)       |      64.46 |      64.81 |      64.17 |      59.67 |
+| Proposed training paradigm    | **SGWRS + Specialized (ours)** |      64.46 |      64.33 |      61.95 |      52.17 |
+roposed Traini
 <details>
 <summary>Chart (accuracy)</summary>
 
