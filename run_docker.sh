@@ -6,6 +6,7 @@ image_name="sgwrs"
 image_tag="latest"
 
 src_folder=$(pwd)/sgwrs
+data_folder=$(pwd)/sgwrs_ds/kitti_data
 
 # Check if container exists
 if [[ $( docker ps -a -f name=$container_name | wc -l ) -eq 2 ]];
@@ -34,7 +35,7 @@ else
         --env NVIDIA_VISIBLE_DEVICES=all \
         --env NVIDIA_DRIVER_CAPABILITIES=all \
         --volume $src_folder:/home/appuser/sgwrs \
-        --volume /path/to/kitti_data:/home/appuser/sgwrs/kitti_data \
+        --volume $data_folder:/home/appuser/sgwrs/kitti_data \
         --interactive \
         --tty \
         --detach \

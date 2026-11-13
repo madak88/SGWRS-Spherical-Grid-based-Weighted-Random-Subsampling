@@ -446,7 +446,16 @@ class PointPillars(nn.Module):
                 idx = int(save_info['batched_idx'][i])
                 calib = save_info['batched_calib_info'][i]
                 write_calib(os.path.join(save_calib_path, f'{idx:06d}.txt'), calib)
-                write_points(act_ds_pts.detach().cpu().numpy(), os.path.join(save_ds_pcd_path, f'{idx:06d}.bin'))
+                # write_points(act_ds_pts.detach().cpu().numpy(), os.path.join(save_ds_pcd_path, f'{idx:06d}.bin'))
+                final_path = os.path.join(
+                    save_ds_pcd_path,
+                    f"{idx:06d}.bin"
+                )
+                temp_path = final_path + ".tmp"
+                points = act_ds_pts.detach().cpu().numpy().astype(np.float32)
+                with open(temp_path, "wb") as f:
+                    points.tofile(f)
+                os.replace(temp_path, final_path)
 
 # =====================================================================================================================
 

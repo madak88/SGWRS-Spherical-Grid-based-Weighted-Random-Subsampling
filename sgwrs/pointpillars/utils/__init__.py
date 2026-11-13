@@ -8,4 +8,4 @@ from .process import bbox_camera2lidar, bbox3d2bevcorners, box_collision_test, \
     bbox3d2corners_camera, points_camera2image, \
     points_in_bboxes, group_plane_equation, group_rectangle_vertexs, bbox_lidar2camera, \
     iterative_crop, calc_truncation, fps, hybrid_spherical_downsample
-from .vis_o3d import vis_pc, vis_img_3d
+# from .vis_o3d import vis_pc, vis_img_3d

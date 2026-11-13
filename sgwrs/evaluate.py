@@ -310,15 +310,15 @@ def main(args):
     if not args.no_cuda:
         model = PointPillars(nclasses=args.nclasses, ds_mode=args.ds_mode, ds_num=args.ds_num).cuda()
         if not args.ckpt.startswith("pretrained_legacy"):
-            model.load_state_dict(torch.load(args.ckpt)['state_dict'])
+            model.load_state_dict(torch.load(args.ckpt, weights_only=False)['state_dict'])
         else:
-            model.load_state_dict(torch.load(args.ckpt))
+            model.load_state_dict(torch.load(args.ckpt, weights_only=False))
     else:
         model = PointPillars(nclasses=args.nclasses, ds_mode=args.ds_mode, ds_num=args.ds_num)
         if not args.ckpt.startswith("pretrained_legacy"):
-            model.load_state_dict(torch.load(args.ckpt, map_location=torch.device('cpu'))['state_dict'])
+            model.load_state_dict(torch.load(args.ckpt, map_location=torch.device('cpu'), weights_only=False)['state_dict'])
         else:
-            model.load_state_dict(torch.load(args.ckpt, map_location=torch.device('cpu')))
+            model.load_state_dict(torch.load(args.ckpt, map_location=torch.device('cpu'), weights_only=False))
     
     saved_path = args.saved_path
     os.makedirs(saved_path, exist_ok=True)
@@ -418,8 +418,9 @@ if __name__ == '__main__':
     parser.add_argument('--num_workers', type=int, default=4)
     parser.add_argument('--nclasses', type=int, default=3)
     parser.add_argument('--no_cuda', action='store_true', help='whether to use cuda')
-    parser.add_argument("--ds_mode", default="none", choices=["cn", "rs", "sgwrs", "fps"], help=( 
+    parser.add_argument("--ds_mode", default="none", choices=["none", "cn", "rs", "sgwrs", "fps"], help=( 
         "Dataset sampling mode:\n"
+        "  none  : Without downsampling\n"
         "  cn    : CAS-Net\n"
         "  rs    : Random Sampling\n"
         "  sgwrs : Spherical Grid-based Weighted Random Subsampling\n"

@@ -1,4 +1,5 @@
 FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-devel
+# FROM pytorch/pytorch:2.7.1-cuda12.8-cudnn9-devel
 
 # Set shell 
 SHELL ["/bin/bash", "-c"]
@@ -47,6 +48,7 @@ RUN groupadd -g 999 appuser && \
 USER root
 ENV FORCE_CUDA=1
 ENV TORCH_CUDA_ARCH_LIST="7.0+PTX"
+# ENV TORCH_CUDA_ARCH_LIST="12.0"
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive\
     apt-get install -y\

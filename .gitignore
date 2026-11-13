@@ -1,8 +1,12 @@
 .idea
 .vscode
 __pycache__
-build/
-tmp/
+build
+*.so
+
 _pillar_logs*
 _results*
+
 kitti_data
+sgwrs_ds
+my_models
