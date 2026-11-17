@@ -178,9 +178,11 @@ def main():
     app = gui.Application.instance
     app.initialize()
 
-    window = app.create_window("SGWRS | Evaluate", 1600, 950) # Name, W, H
+    window = app.create_window("SGWRS | Evaluate", 0, 0) # Name, W, H
     
     em = window.theme.font_size # Font Scale Unit
+
+    window.size = gui.Size(int(90 * em), int(55 * em)) # W, H
 
     state = {
         "running": False,
@@ -190,7 +192,7 @@ def main():
 
     # Background
 
-    BG = gui.Color(0.18, 0.18, 0.18, 1.0)
+    BG = gui.Color(0.2, 0.2, 0.2, 1.0)
 
     strips = []
     for _ in range(7):
@@ -211,7 +213,7 @@ def main():
     center_label.add_stretch()
     center_label.add_child(gui.Label("PRESETS"))
     center_label.add_stretch()
-    
+
     L_layout.add_child(center_label)
     
     preset_grid = gui.VGrid(3, 0.2 * em) # Colums, Space
@@ -223,11 +225,16 @@ def main():
 
     for name in PRESETS:
         button = gui.Button(name)
-        button.horizontal_padding_em = 1.5 # W
+        button.horizontal_padding_em = 1.6 # W
         button.set_on_clicked(lambda name=name: apply_preset(name))
         preset_grid.add_child(button)
 
-    L_layout.add_child(preset_grid)
+    center_grid = gui.Horiz()
+    center_grid.add_stretch()
+    center_grid.add_child(preset_grid)
+    center_grid.add_stretch()
+
+    L_layout.add_child(center_grid)
 
     # INPUTS
 
@@ -277,7 +284,6 @@ def main():
         on_run_clicked(params, window, run_button, status, state, update_clouds)
 
     run_button = gui.Button("Run")
-    run_button.vertical_padding_em = 0.5 # H
     run_button.set_on_clicked(run)
 
     L_layout.add_child(run_button)
@@ -298,14 +304,14 @@ def main():
 
     # CONTROL
 
-    control_layout = gui.Horiz(0.7 * em, gui.Margins(0, 0, 0, 0)) # Space, Margins(L,T,R,B)
+    control_layout = gui.Horiz(0.2 * em, gui.Margins(0, 0, 0, 0)) # Space, Margins(L,T,R,B)
 
     def stop_live():
         state["live"] = False
 
     stop_button = gui.Button("Stop")
     stop_button.set_on_clicked(stop_live)
-    stop_button.horizontal_padding_em = 1.3 # W
+    stop_button.horizontal_padding_em = 1.6 # W
 
     def resume_live():
         state["live"] = True
@@ -314,7 +320,7 @@ def main():
 
     resume_button = gui.Button("Live")
     resume_button.set_on_clicked(resume_live)
-    resume_button.horizontal_padding_em = 1.4 # W
+    resume_button.horizontal_padding_em = 1.6 # W
 
     def step_frame(direction):
         state["live"] = False
@@ -332,15 +338,20 @@ def main():
     next_button = gui.Button("Next")
     prev_button.set_on_clicked(lambda: step_frame(-1))
     next_button.set_on_clicked(lambda: step_frame(1))
-    prev_button.horizontal_padding_em = 1.3 # W
-    next_button.horizontal_padding_em = 1.3 # W
+    prev_button.horizontal_padding_em = 1.6 # W
+    next_button.horizontal_padding_em = 1.6 # W
 
     control_layout.add_child(stop_button)
     control_layout.add_child(prev_button)
     control_layout.add_child(next_button)
     control_layout.add_child(resume_button)
 
-    L_layout.add_child(control_layout)
+    center_control = gui.Horiz()
+    center_control.add_stretch()
+    center_control.add_child(control_layout)
+    center_control.add_stretch()
+
+    L_layout.add_child(center_control)
 
     frame_label = gui.Label("Frame: -")
     L_layout.add_child(frame_label)
