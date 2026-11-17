@@ -182,7 +182,7 @@ def main():
     
     em = window.theme.font_size # Font Scale Unit
 
-    window.size = gui.Size(int(90 * em), int(55 * em)) # W, H
+    window.size = gui.Size(int(100 * em), int(60 * em)) # W, H
 
     state = {
         "running": False,
