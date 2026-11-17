@@ -482,7 +482,9 @@ def main():
         margin = 1.5 * em
         spacing = 1.5 * em
 
-        left_width = 21.25 * em
+        left_width = center_control.calc_preferred_size(
+            ctx, gui.Widget.Constraints()
+        ).width
 
         # LEFT PANEL
         L_layout.frame = gui.Rect(
